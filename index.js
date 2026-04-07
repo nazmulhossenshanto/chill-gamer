@@ -33,7 +33,18 @@ app.post('/reviews', async(req, res)=>{
     const result = await reviewsCollection.insertOne(data)
     res.send(result)
 })
-
+app.get('/reviews/:id', async(req, res)=>{
+    const id = req.params.id;
+    const query = {_id : new ObjectId(id)};
+    const result = await reviewsCollection.findOne(query);
+    res.send(result)
+})
+app.delete('/reviews/:id', async(req, res)=>{
+    const id = req.params.id;
+    const query = {_id: new ObjectId(id)};
+    const result = await reviewsCollection.deleteOne(query);
+    res.send(result)
+})
     // Send a ping to confirm a successful connection
     await client.db("admin").command({ ping: 1 });
     console.log(
