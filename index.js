@@ -24,6 +24,11 @@ async function run() {
     const reviewsCollection = client.db('allReviews').collection('reviews')
 
 
+app.post('/reviews', async(req, res)=>{
+    const data = req.body;
+    const result = await reviewsCollection.insertOne(data)
+    res.send(result)
+})
     // Send a ping to confirm a successful connection
     await client.db("admin").command({ ping: 1 });
     console.log(
