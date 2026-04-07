@@ -1,5 +1,5 @@
 require("dotenv").config();
-const { MongoClient, ServerApiVersion } = require("mongodb");
+const { MongoClient, ServerApiVersion, ObjectId } = require("mongodb");
 const express = require("express");
 const cors = require("cors");
 const app = express();
@@ -23,12 +23,17 @@ async function run() {
     await client.connect();
     const reviewsCollection = client.db('allReviews').collection('reviews')
 
-
+app.get('/reviews', async(req,res)=>{
+    const cursor = reviewsCollection.find();
+    const result = await cursor.toArray();
+    res.send(result)
+})
 app.post('/reviews', async(req, res)=>{
     const data = req.body;
     const result = await reviewsCollection.insertOne(data)
     res.send(result)
 })
+
     // Send a ping to confirm a successful connection
     await client.db("admin").command({ ping: 1 });
     console.log(
